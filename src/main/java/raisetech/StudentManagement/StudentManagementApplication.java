@@ -9,13 +9,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class StudentManagementApplication {
 
+  private String name = "Naoki Takayama";
+
   public static void main(String[] args) {
     SpringApplication.run(StudentManagementApplication.class, args);
   }
 
-  @GetMapping("/hello")
-  public String hello() {
-    return "Hello, World";
+  @GetMapping("/name")
+  public String getName() {
+    return name;
   }
 
 
