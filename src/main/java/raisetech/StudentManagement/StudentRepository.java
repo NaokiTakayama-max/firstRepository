@@ -1,5 +1,6 @@
 package raisetech.StudentManagement;
 
+import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -8,6 +9,9 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface StudentRepository {
 
-  @Select("SELECT * FROM student WHERE name = #{name}")
-  Student selectByName(String name);
+  @Select("SELECT * FROM student")
+  List<Student> search();
+
+  @Select("SELECT * FROM students_courses")
+  List<StudentsCourses> searchCourses();
 }
