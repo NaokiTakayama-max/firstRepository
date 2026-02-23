@@ -17,13 +17,24 @@ public class StudentController {
   }
   //リクエストの加工処理、入力チェックをする処理を加える場合もある
 
-  @GetMapping("/student")
+  @GetMapping("/studentList")
   public List<Student> getStudentList() {
     return service.searchStudentList();
+  }
+
+  @GetMapping("/studentList/ThirtyAge")
+  public List<Student> getThirtyAgeList() {
+    return service.searchThirtyAgeList();
   }
 
   @GetMapping("/studentsCoursesList")
   public List<StudentsCourses> getStudentsCoursesList() {
     return service.searchStudentsCoursesList();
+  }
+
+  @GetMapping("/studentsCoursesList/Java")
+  public List<StudentsCourses> getJavaCoursesList() {
+    return service.searchJavaCoursesList();
+
   }
 }

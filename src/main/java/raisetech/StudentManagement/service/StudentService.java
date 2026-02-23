@@ -25,8 +25,18 @@ public class StudentService {
     return repository.search();
   }
 
+  public List<Student> searchThirtyAgeList() {
+
+    return repository.searchThirtyAge();
+  }
+
   public List<StudentsCourses> searchStudentsCoursesList() {
 
     return repository.searchStudentsCourses();
+  }
+
+  public List<StudentsCourses> searchJavaCoursesList() {
+
+    return repository.searchJavaCourse();
   }
 }
