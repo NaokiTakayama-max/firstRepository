@@ -15,4 +15,6 @@ public class Student {
   private int age;
   private String mailAddress;
   private String region;
+  private String remark;
+  private String isDeleted;
 }

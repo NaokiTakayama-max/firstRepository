@@ -12,4 +12,6 @@ public class StudentsCourses {
   private String courseName;
   private String startDate;
   private String plannedEndDate;
+  private String remark;
+  private String isDeleted;
 }
