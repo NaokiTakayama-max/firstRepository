@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import raisetech.StudentManagement.Student;
@@ -11,8 +12,9 @@ import raisetech.StudentManagement.StudentDetail;
 import raisetech.StudentManagement.StudentsCourses;
 import raisetech.StudentManagement.controller.converter.StudentConverter;
 import raisetech.StudentManagement.service.StudentService;
+import org.springframework.ui.Model;
 
-@RestController
+@Controller
 public class StudentController {
 
   private StudentService service;
@@ -26,12 +28,15 @@ public class StudentController {
 
   //リクエストの加工処理、入力チェックをする処理を加える場合もある
   @GetMapping("/studentList")
-  public List<StudentDetail> getStudentList() {
+  public String getStudentList(Model model) {
     List<Student> students = service.searchStudentList();
     List<StudentsCourses> studentsCourses = service.searchStudentsCoursesList();
 
-    //コンバーター・コンバート
-    return converter.convertStudentDetails(students, studentsCourses);
+    //コンバーター
+    model.addAttribute("studentList", converter.convertStudentDetails(students, studentsCourses)
+ );
+    //テンプレートエンジンのファイル名
+    return "studentList";
   }
 
   @GetMapping("/studentList/ThirtyAge")
