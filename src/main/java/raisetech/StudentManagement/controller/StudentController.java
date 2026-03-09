@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import raisetech.StudentManagement.Student;
 import raisetech.StudentManagement.StudentDetail;
@@ -34,7 +37,7 @@ public class StudentController {
 
     //コンバーター
     model.addAttribute("studentList", converter.convertStudentDetails(students, studentsCourses)
- );
+    );
     //テンプレートエンジンのファイル名
     return "studentList";
   }
@@ -53,5 +56,24 @@ public class StudentController {
   public List<StudentsCourses> getJavaCoursesList() {
     return service.searchJavaCoursesList();
 
+  }
+
+  @GetMapping("/newStudent")
+  public String newStudent(Model model) {
+    model.addAttribute("studentDetail", new StudentDetail());
+    return "registerStudent";
+  }
+
+  @PostMapping("/registerStudent")
+  public String registerStudent(@ModelAttribute StudentDetail studentDetail, BindingResult result) {
+    if(result.hasErrors()){
+      return "registerStudent";
+    }
+
+    //新規受講生情報を登録するシステムを実装
+    service.registerStudent(studentDetail);
+
+    //コース情報も一緒に登録できるように実装（コースは単体）
+        return "redirect:/studentList";
   }
 }
