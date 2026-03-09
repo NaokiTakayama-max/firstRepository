@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import raisetech.StudentManagement.Student;
+import raisetech.StudentManagement.StudentDetail;
 import raisetech.StudentManagement.StudentRepository;
 import raisetech.StudentManagement.StudentsCourses;
 
@@ -38,5 +39,12 @@ public class StudentService {
   public List<StudentsCourses> searchJavaCoursesList() {
 
     return repository.searchJavaCourse();
+  }
+
+  public void registerStudent(StudentDetail studentDetail) {
+
+    Student student = studentDetail.getStudent();
+
+    repository.insertStudent(student);
   }
 }
