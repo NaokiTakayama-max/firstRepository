@@ -3,6 +3,7 @@ package raisetech.StudentManagement;
 import java.util.List;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import raisetech.StudentManagement.Student;
 import raisetech.StudentManagement.StudentsCourses;
@@ -31,4 +32,12 @@ public interface StudentRepository {
       (#{studentId}, #{name}, #{furigana}, #{nickname}, #{gender}, #{age}, #{mailAddress}, #{region}, #{remark}, #{isDeleted})
       """)
   void insertStudent(Student student);
+
+  @Insert("""
+      INSERT INTO students_courses
+      (student_id, course_name, start_date, planned_end_date, remark, is_deleted)
+      VALUES
+      (#{studentId}, #{courseName}, #{startDate}, #{plannedEndDate}, #{remark}, #{isDeleted})
+      """)
+  void insertStudentCourses(StudentsCourses studentsCourses);
 }
