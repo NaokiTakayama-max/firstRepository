@@ -103,4 +103,12 @@ public class StudentController {
     return "redirect:/studentList";
   }
 
+
+  @GetMapping("/studentDetail/{studentId}")
+  public String studentDetail(@PathVariable String studentId, Model model) {
+    StudentDetail studentDetail = service.searchStudentDetail(studentId);
+    model.addAttribute("studentDetail", studentDetail);
+
+    return "informationStudent";
+  }
 }

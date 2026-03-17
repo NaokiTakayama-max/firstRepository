@@ -21,7 +21,7 @@ public interface StudentRepository {
   List<Student> searchThirtyAge();
 
   @Select("SELECT * FROM students_courses")
-  List<StudentsCourses> searchStudentsCourses();
+  List<StudentsCourses> searchAllStudentsCourses();
 
   @Select("SELECT * FROM students_courses WHERE course_name = 'Java基礎コース'")
   List<StudentsCourses> searchJavaCourse();
@@ -56,4 +56,10 @@ public interface StudentRepository {
       WHERE studentId = #{studentId}
       """)
   void updateStudent(Student student);
+
+  @Select("""
+      SELECT * FROM students_courses
+      WHERE studentId = #{studentId}
+      """)
+  List<StudentsCourses> searchStudentsCoursesByStudentId(String studentId);
 }

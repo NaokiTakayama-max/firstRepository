@@ -36,7 +36,7 @@ public class StudentService {
 
   public List<StudentsCourses> searchStudentsCoursesList() {
 
-    return repository.searchStudentsCourses();
+    return repository.searchAllStudentsCourses();
   }
 
   public List<StudentsCourses> searchJavaCoursesList() {
@@ -57,12 +57,12 @@ public class StudentService {
   }
 
   public StudentDetail searchStudentDetail(String studentId) {
-
-    System.out.println(studentId);
-
     Student student = repository.searchStudent(studentId);
+    List<StudentsCourses> studentsCourses = repository.searchStudentsCoursesByStudentId(studentId);
+
     StudentDetail studentDetail = new StudentDetail();
     studentDetail.setStudent(student);
+    studentDetail.setStudentsCourses(studentsCourses);
 
     return studentDetail;
   }
