@@ -55,4 +55,20 @@ public class StudentService {
       repository.insertStudentCourses(studentsCourse);
     }
   }
+
+  public StudentDetail searchStudentDetail(String studentId) {
+
+    System.out.println(studentId);
+
+    Student student = repository.searchStudent(studentId);
+    StudentDetail studentDetail = new StudentDetail();
+    studentDetail.setStudent(student);
+
+    return studentDetail;
+  }
+
+  @Transactional
+  public void updateStudent(StudentDetail studentDetail) {
+    repository.updateStudent(studentDetail.getStudent());
+  }
 }

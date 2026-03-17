@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import raisetech.StudentManagement.Student;
 import raisetech.StudentManagement.StudentsCourses;
 
@@ -25,6 +26,7 @@ public interface StudentRepository {
   @Select("SELECT * FROM students_courses WHERE course_name = 'Java基礎コース'")
   List<StudentsCourses> searchJavaCourse();
 
+
   @Insert("""
       INSERT INTO student
       (studentId, name, furigana, nickname, gender, age, mail_address, region, remark, isDelete)
@@ -40,4 +42,18 @@ public interface StudentRepository {
       (#{studentId}, #{courseName}, #{startDate}, #{plannedEndDate}, #{remark}, #{isDeleted})
       """)
   void insertStudentCourses(StudentsCourses studentsCourses);
+
+
+  @Select("""
+      SELECT * FROM student
+      WHERE studentId = #{studentId}
+      """)
+  Student searchStudent(String studentId);
+
+  @Update("""
+      UPDATE student SET
+      name = #{name},furigana = #{furigana},nickname = #{nickname},gender = #{gender},age = #{age},mail_address = #{mailAddress},region = #{region},remark = #{remark}
+      WHERE studentId = #{studentId}
+      """)
+  void updateStudent(Student student);
 }
