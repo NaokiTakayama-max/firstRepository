@@ -16,5 +16,5 @@ public class Student {
   private String mailAddress;
   private String region;
   private String remark;
-  private String isDeleted;
+  private boolean isDeleted;
 }

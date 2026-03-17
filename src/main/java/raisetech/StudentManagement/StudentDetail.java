@@ -6,6 +6,7 @@ import lombok.Setter;
 import raisetech.StudentManagement.Student;
 import raisetech.StudentManagement.StudentsCourses;
 
+//StudentとStudentsCoursesが取得したデータを細かく処理するための場
 @Getter
 @Setter
 public class StudentDetail {
