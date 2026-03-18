@@ -3,7 +3,9 @@ package raisetech.StudentManagement;
 import java.util.List;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import raisetech.StudentManagement.Student;
 import raisetech.StudentManagement.StudentsCourses;
 
@@ -19,10 +21,11 @@ public interface StudentRepository {
   List<Student> searchThirtyAge();
 
   @Select("SELECT * FROM students_courses")
-  List<StudentsCourses> searchStudentsCourses();
+  List<StudentsCourses> searchAllStudentsCourses();
 
   @Select("SELECT * FROM students_courses WHERE course_name = 'Java基礎コース'")
   List<StudentsCourses> searchJavaCourse();
+
 
   @Insert("""
       INSERT INTO student
@@ -31,4 +34,32 @@ public interface StudentRepository {
       (#{studentId}, #{name}, #{furigana}, #{nickname}, #{gender}, #{age}, #{mailAddress}, #{region}, #{remark}, #{isDeleted})
       """)
   void insertStudent(Student student);
+
+  @Insert("""
+      INSERT INTO students_courses
+      (student_id, course_name, start_date, planned_end_date, remark, is_deleted)
+      VALUES
+      (#{studentId}, #{courseName}, #{startDate}, #{plannedEndDate}, #{remark}, #{isDeleted})
+      """)
+  void insertStudentCourses(StudentsCourses studentsCourses);
+
+
+  @Select("""
+      SELECT * FROM student
+      WHERE studentId = #{studentId}
+      """)
+  Student searchStudent(String studentId);
+
+  @Update("""
+      UPDATE student SET
+      name = #{name},furigana = #{furigana},nickname = #{nickname},gender = #{gender},age = #{age},mail_address = #{mailAddress},region = #{region},remark = #{remark}
+      WHERE studentId = #{studentId}
+      """)
+  void updateStudent(Student student);
+
+  @Select("""
+      SELECT * FROM students_courses
+      WHERE studentId = #{studentId}
+      """)
+  List<StudentsCourses> searchStudentsCoursesByStudentId(String studentId);
 }

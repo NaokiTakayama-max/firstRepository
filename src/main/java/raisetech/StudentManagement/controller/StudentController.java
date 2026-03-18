@@ -1,6 +1,7 @@
 package raisetech.StudentManagement.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import raisetech.StudentManagement.Student;
@@ -60,13 +62,16 @@ public class StudentController {
 
   @GetMapping("/newStudent")
   public String newStudent(Model model) {
-    model.addAttribute("studentDetail", new StudentDetail());
+    StudentDetail studentDetail = new StudentDetail();
+    studentDetail.setStudent(new Student());
+    studentDetail.setStudentsCourses(Arrays.asList(new StudentsCourses()));
+    model.addAttribute("studentDetail", studentDetail);
     return "registerStudent";
   }
 
   @PostMapping("/registerStudent")
   public String registerStudent(@ModelAttribute StudentDetail studentDetail, BindingResult result) {
-    if(result.hasErrors()){
+    if (result.hasErrors()) {
       return "registerStudent";
     }
 
@@ -74,6 +79,36 @@ public class StudentController {
     service.registerStudent(studentDetail);
 
     //コース情報も一緒に登録できるように実装（コースは単体）
-        return "redirect:/studentList";
+    return "redirect:/studentList";
+  }
+
+
+  @GetMapping("/updateStudent/{studentId}")
+  public String updateStudent(@PathVariable String studentId, Model model) {
+    StudentDetail studentDetail = service.searchStudentDetail(studentId);
+    model.addAttribute("studentDetail", studentDetail);
+
+    return "updateStudent";
+  }
+
+  @PostMapping("/updateStudent")
+  public String updateStudent(@ModelAttribute StudentDetail studentDetail, BindingResult result) {
+    if (result.hasErrors()) {
+      return "updateStudent";
+    }
+
+    //受講生情報を更新するシステムを実装
+    service.updateStudent(studentDetail);
+
+    return "redirect:/studentList";
+  }
+
+
+  @GetMapping("/studentDetail/{studentId}")
+  public String studentDetail(@PathVariable String studentId, Model model) {
+    StudentDetail studentDetail = service.searchStudentDetail(studentId);
+    model.addAttribute("studentDetail", studentDetail);
+
+    return "informationStudent";
   }
 }
