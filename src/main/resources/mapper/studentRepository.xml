@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="raisetech.StudentManagement.StudentRepository">
+  <!-- 参照コピー -->
+  <!-- 受講生の全件検索 -->
+  <select id="search" resultType="raisetech.StudentManagement.Student">
+    SELECT
+    studentId, name, furigana, nickname, gender, age,
+    mail_address AS mailAddress,
+    region, remark,
+    isDelete AS deleted
+    FROM student
+  </select>
+
+  <!-- 受講生の検索 -->
+  <select id="searchStudent" resultType="raisetech.StudentManagement.Student">
+    SELECT * FROM student WHERE student_id = #{studentId}
+  </select>
+
+  <!-- 30代受講生の検索 -->
+  <select id="searchThirtyAge" resultType="raisetech.StudentManagement.Student">
+    SELECT
+    studentId, name, furigana, nickname, gender, age,
+    mail_address AS mailAddress,
+    region, remark,
+    isDelete AS deleted
+    FROM student
+    WHERE age BETWEEN 30 AND 39
+  </select>
+
+  <!-- 受講生コースの全件検索 -->
+  <select id="searchAllStudentsCourses" resultType="raisetech.StudentManagement.StudentsCourses">
+    SELECT
+    studentId,
+    students_coursesId AS studentsCoursesId,
+    course_name AS courseName,
+    start_date AS startDate,
+    planned_end_date AS plannedEndDate,
+    remark,
+    isDelete AS deleted
+    FROM students_courses
+  </select>
+
+  <!-- Javaコースの検索 -->
+  <select id="searchJavaCourse"
+    resultType="raisetech.StudentManagement.StudentsCourses">
+    SELECT * FROM students_courses
+    WHERE course_name = 'Java基礎コース'
+  </select>
+
+  <!-- INSERT -->
+  <insert id="insertStudent">
+    INSERT INTO student
+    (studentId, name, furigana, nickname, gender, age, mail_address, region, remark, isDelete)
+    VALUES
+    (#{studentId}, #{name}, #{furigana}, #{nickname}, #{gender}, #{age},
+    #{mailAddress}, #{region}, #{remark}, #{deleted})
+  </insert>
+
+  <insert id="insertStudentCourses">
+    INSERT INTO students_courses
+    (studentId, course_name, start_date, planned_end_date, remark, isDelete)
+    VALUES
+    (#{studentId}, #{courseName}, #{startDate}, #{plannedEndDate}, #{remark}, #{deleted})
+  </insert>
+
+  <!-- UPDATE -->
+  <update id="updateStudent">
+    UPDATE student SET
+    name = #{name},
+    furigana = #{furigana},
+    nickname = #{nickname},
+    gender = #{gender},
+    age = #{age},
+    mail_address = #{mailAddress},
+    region = #{region},
+    remark = #{remark}
+    WHERE studentId = #{studentId}
+  </update>
+
+  <update id="updateStudentsCourses">
+    UPDATE students_courses
+    SET isDelete = #{deleted}
+    WHERE students_coursesId = #{studentsCoursesId}
+  </update>
+
+  <!-- 受講生IDに紐づくコース情報 -->
+  <select id="searchStudentsCoursesByStudentId"
+    resultType="raisetech.StudentManagement.StudentsCourses">
+    SELECT
+    studentId,
+    students_coursesId AS studentsCoursesId,
+    course_name AS courseName,
+    start_date AS startDate,
+    planned_end_date AS plannedEndDate,
+    remark,
+    isDelete AS deleted
+    FROM students_courses
+    WHERE studentId = #{studentId}
+    AND isDelete = false
+  </select>
+</mapper>
